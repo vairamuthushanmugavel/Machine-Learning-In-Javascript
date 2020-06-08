@@ -7,11 +7,17 @@ async function processData() {
   }
 }
 
+/**
+ *
+ * @param {Object} colorA object which contains rgba values
+ * @param {Object} colorB object which contains rgba values
+ * @return {Number} distance between two objects
+ */
 function calcEculideanDist(colorA, colorB) {
   return Math.sqrt(
-    Math.pow((colorA.r - colorB.r), 2) +
-      Math.pow((colorA.g - colorB.g), 2) +
-      Math.pow((colorA.b - colorB.b), 2)
+    Math.pow(colorA.r - colorB.r, 2) +
+      Math.pow(colorA.g - colorB.g, 2) +
+      Math.pow(colorA.b - colorB.b, 2)
   );
 }
 
@@ -30,8 +36,7 @@ function convertTextToRGB(colorName) {
   return { r: imagedata[0], g: imagedata[1], b: imagedata[1], a: imagedata[4] };
 }
 
-/**
- * @description  Listening to form submit event.
+/** Listening to form submit event.
  */
 let form = document.querySelector("form");
 form.addEventListener("submit", function (event) {
