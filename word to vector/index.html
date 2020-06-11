@@ -16,12 +16,15 @@
          <canvas id="canvas" height="10" width="10"></canvas>  
         <section class="container">
             <div class="inputcontainer">
-            <div>
-                <p>Application is using data set</p>
+            <div class="dataset">
+                <p>The dataset can be found  <a href="https://github.com/dariusk/corpora/blob/master/data/colors/xkcd.json" target="_blank">here</a></p>
             </div>
             <form>
-                <input class="input" type="text" required placeholder="Enter a color Name"><button class="button">find</button>
+                <input class="input" name="color" type="text" required placeholder="Enter a color Name"><button class="button">find</button>
             </form>
+            <div id="closestvectors">
+               
+            </div>
         </div>
     </section>
     <script src="index.js"></script>

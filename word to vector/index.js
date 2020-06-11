@@ -3,7 +3,7 @@ async function processData() {
   let data = await fetch("dataset.json");
   data = await data.json();
   for (let color of data.colors) {
-    dataMap[color.color] = { rgba: convertTextToRGB(color.color), ...color };
+    dataMap[color.color] = { rgba: convertTextToRGB(color.hex), ...color };
   }
 }
 
@@ -28,6 +28,7 @@ function calcEculideanDist(colorA, colorB) {
  *
  */
 function convertTextToRGB(colorName) {
+  ctx.clearRect(0,0,canvas.width,canvas.height)
   ctx.beginPath();
   ctx.fillStyle = colorName;
   ctx.rect(0, 0, canvas.width, canvas.height);
@@ -41,9 +42,36 @@ function convertTextToRGB(colorName) {
 let form = document.querySelector("form");
 form.addEventListener("submit", function (event) {
   event.preventDefault();
+  let color = document.forms[0].color;
+  let rgb = convertTextToRGB(color.value);
+  // sorting the array based on ecludian distance
+
+  let closestColorsArr = Object.keys(dataMap);
+  // closestColorsArr.length = 10 
+  closestColorsArr.sort((c1, c2) => {
+    return calcEculideanDist(dataMap[c1].rgba, rgb) -  calcEculideanDist(dataMap[c2].rgba, rgb);
+  });
+  updateClosesetVec(closestColorsArr);
 });
+/**
+ * @param arr sorted array based on current vector
+ */
+function updateClosesetVec(arr) {
+  let closetVec = document.getElementById("closestvectors");
+  let container = document.createDocumentFragment();
+  let span = document.createElement('span');
+  span.innerText = "Top 5 Close color Vectors that close to current color"
+  container.appendChild(span)
+  for (i = 0; i < 5; i++) {
+    let p = document.createElement("p");
+    p.innerText = arr[i];
+    p.style.color = dataMap[arr[i]].hex
+    container.appendChild(p);
+  }
+  closetVec.innerHTML = "";
+  closetVec.append(container);
+}
 
 var canvas = document.getElementById("canvas");
 var ctx = canvas.getContext("2d");
-var data = convertTextToRGB("pink");
 processData();
